@@ -33,12 +33,20 @@
             .title {
                 font-size: 96px;
             }
+            .link {
+                font-size: 40px;
+                color: #4682b4;                
+            }
+            .link-container{
+                text-align: right;
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
-                <div class="title"><a href="{{url('auth/github')}}">Github Log In</a></div>
+                <div class="title">Powered by Laravel Socialite</div>
+                <div class="link-container">Github <a class="link" href="{{url('auth/github')}}">Log In</a></div>
             </div>
         </div>
     </body>
