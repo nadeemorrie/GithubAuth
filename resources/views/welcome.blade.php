@@ -46,7 +46,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">Powered by Laravel Socialite</div>
-                <div class="link-container">Github <a class="link" href="{{url('auth/github')}}">Log In</a></div>
+                <div class="link-container">Github <a class="link" href="{{url('auth/github/login')}}">Log In</a></div>
             </div>
         </div>
     </body>
