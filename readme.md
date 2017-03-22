@@ -84,7 +84,7 @@ GIT_HUB_CLIENT_SECRET=1ac042b60da70d010fa655f9b1f94a1a14ed8a5d
 GIT_HUB_CALLBACK_URL=http://dev.manager/auth/github/callback
 ```
 
-[![NOTE]]: If you want to use my OAuth settings then please set your homepage dev url to http://dev.manager.
+NOTE: If you want to use my OAuth settings then please set your homepage dev url to http://dev.manager.
 Alternatively register your own application settings for OAuth on https://github.com/settings/applications/new
 and update the .env file.
 
@@ -96,7 +96,7 @@ Authorization callback URL = http://YOUR_SERVER_NAME/auth/github/callback
 
 ## Finally test the link
 
-Test the link: (http://dev.manager)
+Test the link: http://dev.manager
 
 ## Setup using your own custom server.
 
