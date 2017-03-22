@@ -4,7 +4,9 @@
 
 Gihub authentication using Laravel 5.4. In addition, a call a github api to display the logged in users repo's and last 3 commmits.
 
-### Framework used, Laravel (v5.4)
+Framework used, Laravel (v5.4)
+
+##
 
 ## Setup a local virtual dev environment
 
@@ -45,7 +47,7 @@ The repo/project ships with a Vagrantfile allowing you to run vagrant per projec
 
 ### Install homestead
 
-Install vagrant virtual maching Homestead.
+Install vagrant virtual machine Homestead.
 ```
 $ cd githubauth/
 $ php vendor/bin/homestead make
@@ -82,7 +84,7 @@ GIT_HUB_CLIENT_SECRET=1ac042b60da70d010fa655f9b1f94a1a14ed8a5d
 GIT_HUB_CALLBACK_URL=http://dev.manager/auth/github/callback
 ```
 
-NOTE: If you want to use my OAuth settings then please set your homepage dev url to http://dev.manager.
+[![NOTE]]: If you want to use my OAuth settings then please set your homepage dev url to http://dev.manager.
 Alternatively register your own application settings for OAuth on https://github.com/settings/applications/new
 and update the .env file.
 
