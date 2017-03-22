@@ -1,72 +1,47 @@
 <?php
 
-namespace App\Classes;
+namespace App\Classes\Github;
 
-
+// system classes
 use Illuminate\Support\Collection;
-
 use Exception;
-use GuzzleHttp\Client as HttpClient;
 
-class GithubApi {
+// custom interface
+use App\Classes\Interfaces;
 
-	private $client;
-	private $username;
-	private $repoInfo;	
+class GithubProfile {
 
-	public function __construct($username) {
-		$this->client = new HttpClient();
-		$this->username = $username;
+	private $client;	
+
+	public function __construct($client) {				
+		$this->client = $client;
 	}
 
-	public function getUserInfo() {
-		$this->repoInfo = $this->getRepoInfo();
-
-        return $this->getCommitMessagesPerRepo($this->repoInfo);
-	}
-
-
-
-	private function getRequest($url) {
-		try 
-		{	
-			// fetch data from api		
-			$response = $this->client->request('GET', $url);
-			
-			// get data only from response body
-			return json_decode($response->getBody()->getContents(), true);
-		}
-		catch (Exception $e)
-		{
-			// TODO: handle error display
-			echo "Get request failed.".$e->getMessage();
-			return [];
-		}		
-	}
-
-	private function getRepoInfo() {
-		$url = "https://api.github.com/users/".$this->username."/repos";
+	public function getRepoData($username) {
+		$url = "https://api.github.com/users/".$username."/repos";
 
 		// fetch raw data from api
-		$repoData = $this->getRequest($url);
+		$repoRawData = $this->client->getRequest($url);
 
 		// filter out the repo name from the api response
-	    return $this->prepareRepoInfo($repoData);
+	    $repoInfo = $this->getRepoInfo($repoRawData);
+
+	    return $this->getRepoCommitInfo($repoInfo, $username);
 	}
 
-	private function getCommitMessagesPerRepo($repoInfoArray) {
+	private function getRepoCommitInfo($repoInfoArray, $username) {
 		// store repo and its commits info in a collection for the view
-		$repoInfo = new collection();
+		$allRepoInfo = new collection();
 		$repoName="";
 
 		foreach ($repoInfoArray as $value) {
 			$repoName = array_get($value, "repo_info.name");
 			$repoUrl = array_get($value, "repo_info.html_url");		
 
-			$url = "https://api.github.com/repos/".$this->username."/".$repoName."/commits";
+			$url = "https://api.github.com/repos/".$username."/".$repoName."/commits";
 
 			// fetch raw commit info from api
-			$data = $this->getRequest($url);
+			$data = $this->client->getRequest($url);
 			
 			// filter commit messages from api response and store in 
 			// commitInfoTemp array
@@ -78,12 +53,12 @@ class GithubApi {
 			$allInfo = ['repo_info'=>$repoInfoTemp, 'commit_info'=>$commitInfoTemp];
 
 			// store all data in new collection
-			$repoInfo->push($allInfo);
+			$allRepoInfo->push($allInfo);
 			
 	   }
 
 	   // return data for the view
-	   return $repoInfo;
+	   return $allRepoInfo;
 	}
 
 	private function getArrayDataByKey($array, $key) {
@@ -93,7 +68,7 @@ class GithubApi {
 		return $key." not found";	
 	}
 
-	private function prepareRepoInfo($array) {
+	private function getRepoInfo($array) {
 		if (!is_array($array))
 			return [];
 
@@ -115,7 +90,7 @@ class GithubApi {
 		// temporary variable to store commits array
 		$tempCommitMessages = new collection($commitMessagesArray);
 		
-		// retun top 3 items in collection
+		// return top 3 items in collection
 		$tempCommitMessages->splice(3);		
 
 		// reconstruct the commits collection with the commit message and its html url.

@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/githubauth":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/githubauth","hostpath":"/home/nadeem/Code/githubauth","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/nadeem/Code/githubauth","disabled":false,"__vagrantfile":true}}}

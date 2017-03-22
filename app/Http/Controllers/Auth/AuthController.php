@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+// System Classes
 use Socialite;
-use App\Classes\GithubApi;
-
-
 use App\Http\Controllers\Controller;
+
+// Custom Classes
+use App\Classes\Api\HttpClient;
+use App\Classes\Github\GithubProfile;
 
 class AuthController extends Controller
 {
@@ -24,10 +26,11 @@ class AuthController extends Controller
         
         $username = $response->getNickname();        
         
-        // prepare api calls
-        $github = new GithubApi($username);
+        // instantiate a new guzzle http client to handle all api calls
+        $client = new HttpClient();
 
-        $gitUserInfo = $github->getUserInfo();
+        // get api call data
+        $gitUserInfo  = (new GithubProfile($client))->getRepoData($username);        
 
         return view ('pages.commit_list.view')
                 ->with(compact('gitUserInfo', 'username'));                
